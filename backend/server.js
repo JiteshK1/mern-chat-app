@@ -1,15 +1,15 @@
 import express  from "express"
-const app = express()
 import dotenv from "dotenv"
 import authRoutes from "./routes/auth.routes.js"
 import messageRoutes from "./routes/message.routes.js"
 import userRoutes from "./routes/user.routes.js"
-
 import connectToMongoDB from "./db/connectionToMongoDB.js"
 import cookieParser from "cookie-parser";
+import { app, server } from "./socket/socket.js";
 
 const  port = process.env.PORT || 5000
 dotenv.config()
+
 
 app.use(express.json())  // use to parse the incoming  request json from req.body
 app.use(cookieParser());
@@ -20,12 +20,12 @@ app.use("/api/users", userRoutes);
 
 
 
-// app.get('/',(req,res)=>{
-//     res.send("hello world")
-// })
+app.get('/',(req,res)=>{
+    res.send("hello world")
+})
 
 
-app.listen(port,()=>{
+server.listen(port,()=>{
     connectToMongoDB()
     console.log(`Port listing on ${port}`)
 })
